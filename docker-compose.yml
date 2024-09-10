@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - db-data:/app/data
+    environment:
+      - DATABASE_PATH=/app/data/content.db
+
+  crawler:
+    build:
+      context: ./newspaper_scraper
+      dockerfile: Dockerfile
+    volumes:
+      - db-data:/app/data
+    environment:
+      - DATABASE_PATH=/app/data/content.db
+
+volumes:
+  db-data:
